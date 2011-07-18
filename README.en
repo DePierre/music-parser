@@ -1,0 +1,46 @@
+Goals:
+    -Organize a library of musics automatically
+    -Mp3 metadata's management (others extensions soon)
+    -Renameing of files depending on metadatas
+    -Organisation of files depending on the Artist and even the Album, starting to a root folder
+
+Naming conventions:
+    -Each special character is deleted (ASCII Table), i.e which is referenced in string.punctuation for instance)
+        -"'" is excepted and it'll be replaced by "_"
+    -The filename is lowercased
+    -The only first letter is uppercase, except of Artists' and Albums' name
+    -Expressions between parentheses, braces or square bracket are deleted from the final filename
+    -If a number exist (like the tack number for instance), it stays and it's formated like '01 - L...'
+
+Examples :
+    -Root folder :
+        "/home/music/"
+
+    -Initial filename :
+        "06_Smoke_On_The_Water_[Live].mp3"    
+        
+    -Metadatas : 
+        artist="Deep Purple"
+        album="Rock"
+        title="Smoke On The Water [Live]"
+        ...
+
+    -Ultimate filename with its root folder :
+        "/home/music/Deep Purple/Rock/Smoke on the water.mp3"
+
+
+    -Root folder :
+        "/home/music"
+
+    -Initial filename :
+        "08-instance-with_éèâ.mp3"
+
+    -Metadatas :
+        artist="La Boussole"
+        album="Le Savoir Est Une Arme"
+        title="08-instance-with-éèâ"
+        ...
+    
+    -Ultimate filename with its root folder :
+        "/home/music/La Boussole/Le Savoir Est Une Arme/08 - Instance with.mp3"
+
