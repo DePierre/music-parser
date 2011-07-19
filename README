@@ -1,15 +1,15 @@
 Goals:
     -Organize a library of musics automatically
-    -Mp3 metadata's management (others extensions soon)
-    -Renameing of files depending on metadatas
-    -Organisation of files depending on the Artist and even the Album, starting to a root folder
+    -Mp3 metadata's management (other extensions soon)
+    -Renaming of files depending on metadatas
+    -Organisation of files depending on the Artist and the Album, starting to a root folder
 
 Naming conventions:
-    -Each special character is deleted (ASCII Table), i.e which is referenced in string.punctuation for instance)
+    -Each special character is deleted (ASCII Table), i.e which is referenced in string.punctuation for instance
         -"'" is excepted and it'll be replaced by "_"
     -The filename is lowercased
-    -The only first letter is uppercase, except of Artists' and Albums' name
-    -Expressions between parentheses, braces or square bracket are deleted from the final filename
+    -Every word's first letter is uppercased as seen in other conventions (including Artist's, Album's and Song's names)
+    -Expressions between parentheses, braces or square brackets are deleted from the final filename
     -If a number exist (like the tack number for instance), it stays and it's formated like '01 - L...'
 
 Examples :
