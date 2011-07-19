@@ -10,7 +10,7 @@ Convention de renommage :
     -Tout caractères spéciaux sont supprimés (on reste dans la table ASCII non-étendue), c'est à dire ceux référencés par string.punctuation par exemple
         -une exception pour ' qui sera remplacé par _
     -Le nom est passé en minuscule (lowercase)
-    -La première lettre seule est en majuscule sauf pour les noms d'artistes et d'albums
+    -La première lettre de chaque mot est passée en majuscule, ce qui concerne en l'occurence le nom de l'artist; de l'album et du morceau
     -Ce qu'il y a entre des parenthèses, des crochets et des accolades est supprimé sur nom final
     -Si un numéro est présent (comme le numéro de la chanson par exemple) il est conservé et mis sous la forme "01 - L..."
 
