@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 from id3.ID3 import *
 from file_types import File_mp3
 import sys
