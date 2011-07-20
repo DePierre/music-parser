@@ -1,4 +1,5 @@
 from id3.ID3 import *
+import os
 
 class File:
     """
@@ -11,21 +12,9 @@ class File:
         - etc.
     Contains the name and path to a music file
     """
-    name = ''
-    path = ''
     def __init__(self, filenamewpath):
-        # First of all, we split the file into a list of words
-        # separated by a '/' character
-        words = filenamewpath.rsplit('/')
-
-        # Secondly, we take the last word of the list,
-        # it's the name of the song. We delete it from the list
-        self.name = words.pop()
-
-        # Then we concatene each one of the words in the list,
-        # those are the path folder names and put a '/' between them
-        for word in words:
-            self.path += word + '/'
+        self.name = os.path.basename(filenamewpath)
+        self.path = os.path.dirname(filenamewpath)
 
 class File_mp3(File):
     """
