@@ -12,11 +12,7 @@ import sys
 class MusicFileParser(dict):
     "Dictionary like {'keys'='old filename': 'values'='new filename with fullpath', ...}"
 
-    def __init__(self, listFile, rootPath='~/', ext='mp3'):
-        self['ext'] = ext
-        self['rpath'] = rootPath
-
-    def __parse(self, listFile):
+    def __parse(self, listFile, rootPath='~/'):
         for file in listFile:
             artist = file.artist.encode('ascii', 'replace')
             artist = artist.title()
@@ -33,7 +29,7 @@ class MusicFileParser(dict):
                     name = numTrack + tmp[3]
             name = name.title()
 
-            newFilename = self['rpath'] + '/' _
+            newFilename = rootPath + '/' _
                           artist + '/' _
                           album + '/' _
                           name
