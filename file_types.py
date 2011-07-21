@@ -22,4 +22,4 @@ class File_mp3(File):
     """
     def __init__(self, filenamewpath):
         File.__init__(self, filenamewpath)
-        self.tag = ID3(self.path + self.name)
+        self.tag = ID3(self.path + '/' +  self.name)
