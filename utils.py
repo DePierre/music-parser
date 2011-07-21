@@ -16,17 +16,65 @@ def execution(filebefore, fileafter):
         print filebefore.path + filebefore.name + ' moved to ' + fileafter.path + fileafter.name
     os.renames(filebefore.path + filebefore.name, fileafter.path + fileafter.name)
 
-def listfiles(path):
+def list_music_files(path):
     """
-    Return a list of files in the tree 
+    Return a list of musical files in the tree 
     at the 'path' location. Each object in the 
     list is composed of the name of the file + its path. 
-    Return one list with musical files and another
-    with every other files (images, mkv, nfo, nzb..)
     """
-    # We create an initial musicfiles, non_musicfiles and directories list empty
-    musicfiles = []
-    non_musicfiles = []
+    # We create an initial musicfiles empty
+    music_files = []
+    # We get a recursive list of all objects (folders, files...) contained
+    # in the folder at the 'path' location
+    wholelist = os.listdir(path)
+    # Then, for each raw object:
+    for it in wholelist:
+        # If the raw object is a folder
+        if os.path.isdir(path + '/' + it):
+            # We call recursively the function on this folder
+            music_files.extend(list_music_files(path + '/' + it))
+        # Else if its already a files with an extension
+        # present in the Settings.exts list of accepted extensions,
+        elif os.path.splitext(path + '/' + it)[1] in Settings.exts:
+            # We add it to the list with its path and name
+            music_files.append(path + '/' + it)
+    # Here you go, bitches, we return the music files
+    return music_files
+
+def list_not_music_files(path):
+    """
+    Return a list of non musical files in the tree 
+    at the 'path' location. Each object in the 
+    list is composed of the name of the file + its path. 
+    For exemple: jpg, png, nfo, mkv, nzb...
+    """
+    # We create an initial not musical files empty
+    not_music_files = []
+    # We get a recursive list of all objects (folders, files...) contained
+    # in the folder at the 'path' location
+    wholelist = os.listdir(path)
+    # Then, for each raw object:
+    for it in wholelist:
+        # If the raw object is a folder
+        if os.path.isdir(path + '/' + it):
+            # We call recursively the function on this folder
+            not_music_files.extend(list_not_music_files(path + '/' + it))
+        # Else if its already a files with an extension
+        # present in the Settings.exts list of accepted extensions,
+        elif os.path.splitext(path + '/' + it)[1] not in Settings.exts:
+            # We add it to the list with its path and name
+            not_music_files.append(path + '/' + it)
+    # Here you go, bitches, we return the not_music_files
+    return not_music_files
+
+def list_directories(path):
+    """
+    Return a list of directories in the tree before modification 
+    at the 'path' location. Each object in the 
+    list is composed of the name of the file + its path. 
+    Will help to delete empty directories at the end of the process
+    """
+    # We create an initial directories list empty
     directories = []
     # We get a recursive list of all objects (folders, files...) contained
     # in the folder at the 'path' location
@@ -36,18 +84,10 @@ def listfiles(path):
         # If the raw object is a folder
         if os.path.isdir(path + '/' + it):
             # We call recursively the function on this folder
-            musicfiles.extend(listfiles(path + '/' + it))
+            directories.extend(list_directories(path + '/' + it))
             directories.append(path + '/' + it)
-        # Else if its already a files with an extension
-        # present in the Settings.exts list of accepted extensions,
-        elif os.path.splitext(path + '/' + it)[1] in Settings.exts:
-            # We add it to the list with its path and name
-            musicfiles.append(path + '/' + it)
-        else:
-            non_musicfiles.append(path + '/' + it)
-    # Here you go, bitches, we return the music files, non_musicfiles
-    # and every directory we found, for the empty ones to be deleted later on
-    return [musicfiles, non_musicfiles, directories]
+    # Here you go, bitches, we return the directories list
+    return directories
 
 def delete_empty_directories(directories):
     """
