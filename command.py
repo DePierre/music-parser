@@ -17,6 +17,7 @@ def parse_command(argv):
     argv.reverse()
     # </LOOOOOOOOOOOOOOOOOOL>
     paths = []
+    clean_paths = []
     for arg in argv:
         # If the argument is a directory
         if os.path.isdir(arg):
@@ -56,4 +57,10 @@ def parse_command(argv):
             print Settings.syntax_error
             # And cancel everything else
             return []
-    return paths
+    # The ending path '/' is not necessary. In a cleaning purpose we remove him,
+    # that way, other functions can be based upon /path and not /path/ OR /path
+    for path in paths:
+        if path[-1] == '/':
+            path = path[:-1]
+        clean_paths.append(path)
+    return clean_paths
