@@ -9,6 +9,8 @@ import os, sys
 # First step : We parse and set the command sent by the user
 # We will store the settings in the Settings class (settings.py)
 # For exemple : quiet or not (-q arg), delete the non music track files or not (-d)
+# Also, an argument -t which allow to just print the incoming changes, not
+# apply them
 
 # Second step : We use listfiles to recursively get all the files
 # present in the tree with the specified folder as root
