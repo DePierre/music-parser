@@ -86,9 +86,9 @@ def build_track_name(track, number = ''):
 def set_meta_mp3(file):
     """
     Set new values of the file using tag id3
-    This method uses different ones,
+    This functions uses different ones,
     to create the new values.
-    Modifies the file with new values
+    Return the new file with new values
     """
 
     file.tag["TITLE"] = format_string(file.tag["TITLE"])
