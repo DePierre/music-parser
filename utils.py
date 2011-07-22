@@ -106,7 +106,7 @@ def delete_empty_directories(directories):
     # And we test each one of the directories
     for directory in directories:
         # If the directory is empty
-        if os.listdir(directory) == []:
+        if not os.listdir(directory):
             os.rmdir(directory)
 
 def final_cleaning(non_musicfiles, directories):
