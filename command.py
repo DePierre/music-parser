@@ -4,18 +4,11 @@ from utils import list_music_files
 
 def parse_command(argv):
     """
-    Parse the command sent by the user, ignore the
-    first argument (which is the name of the .py file).
+    Parse the command sent by the user.
     If an argument is not a parameter, then we add it to the
     list of paths. The function will return this list of paths
     and set the Settings class according to parameters set by user.
     """
-    # First of all, we delete the first argument
-    # <LOOOOOOOOOOOOOOOOOL>
-    argv.reverse()
-    argv.pop()
-    argv.reverse()
-    # </LOOOOOOOOOOOOOOOOOOL>
     paths = []
     clean_paths = []
     for arg in argv:
