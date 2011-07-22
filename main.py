@@ -17,7 +17,6 @@ from file_types import *
 # apply them
 # We get arguments from user
 list_root_path = parse_command(sys.argv)
-
 # Second step : We use listfiles to recursively get all the files
 # present in the tree with the specified folder as root
 # Last arg have to be the root path.
