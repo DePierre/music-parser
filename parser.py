@@ -57,8 +57,23 @@ def delete_spe_char_and_format(str):
         # If it's not a alphanumeric char
         # it's probably a char like "'-_/..."
         if not new_str[i].isalnum():
-            new_str[i] = ' '
+            new_str.replace(new_str[i], ' ', 1)
     return new_str
+
+def strip_not_alnum_char(str):
+    """
+    Delete from the begin all not alnum char
+    Return the final string
+    """
+
+    i = 0
+    # While we don't find a character or a digit,
+    # that means it's a special char (logical!)
+    while not str[i].isalnum() and i < len(str):
+        i += 1
+    if i != len(str):
+        str = str[i:]
+    return str
 
 def delete_duplicate(str, list_dup):
     """
@@ -67,20 +82,12 @@ def delete_duplicate(str, list_dup):
     'Deep Purple - Smoke On The Water'
     So this function will remove 'Deep Purple' from 'title'
     because list_dup contains 'Deep Purple'.
-    To conlude, this function will delete all
-    not alphanumeric characters from the start of 'title'
     Return the new 'title'
     """
 
     for dup in list_dup:
         str = str.lstrip(dup)
-    i = 0
-    # While we don't find a character or a digit,
-    # that means it's a special char (logical!)
-    while not str[i].isalnum() and i < len(str):
-        i += 1
-    if i != len(str):
-        str = str[i:]
+        str = strip_not_alnum_char(str)
     return str
 
 def find_tracknumber(title):
@@ -144,43 +151,41 @@ def set_meta_mp3(file):
     # For each string properties into the tag
     for prop in list_str_prop_mp3:
         # If the tag exist (i.e it's not empty for the music file)
-        if file.tag.d.has_key[prop.upper()]:
+        if file.tag.d.has_key(prop.upper()):
             # We delete spe char and we format it
             dict_file_mp3[prop] = delete_spe_char_and_format(file.tag[prop.upper()])
         else:
             # Or we define it's value as 'Unknow ' + prop
             # For instance 'Unknow Artist'
-            dict_file[prop] = 'Unknow ' + prop.capitalize()
+            dict_file_mp3[prop] = 'Unknow ' + prop.capitalize()
     # For each other properties
     for prop in list_other_prop_mp3:
-        if file.tag.d.has_key[prop.upper()]:
+        if file.tag.d.has_key(prop.upper()):
             # We just copy them
-            dict_file[prop] = file.tag[prop.upper()]
+            dict_file_mp3[prop] = file.tag[prop.upper()]
         else:
-            dict_file[prop] = ''
+            dict_file_mp3[prop] = ''
     # To try to find the tracknumber, we need 'title'
-    if dict_file_mp3.has_key['title']: 
+    if dict_file_mp3.has_key('title'): 
         # But before, we delete the duplicate
-        # and for that we need 'artist' (the most important)
-        if file.tag.d.has_key['artist']:
-            list_duplicate = [file.tag['ARTIST']]
-            # And we could need 'album' (the less important)
-            if file.tag.d.has_key['album']:
-                list_duplicate.append(file.tag['ALBUM'])
-            # Now we delete the duplicates
-            dict_file_mp3['title'] = delete_duplicate(dict_file_mp3, list_duplicate)
+        list_duplicate = [dict_file_mp3['artist'], dict_file_mp3['album']]
+        # Now we delete the duplicates
+        dict_file_mp3['title'] = delete_duplicate(dict_file_mp3['title'], list_duplicate)
         # So we are able to find the tracknumber
         number = ''
         # If ID3 already find it
         if file.tag.d.has_key("TRACKNUMBER"):
             number = file.tag["TRACKNUMBER"]
-        # Or we try to find by ourself
+        # Else we try to find by ourself
         else:
             number = find_tracknumber(dict_file_mp3['title'])
+            # If we found a tracknumber, we delete it from 'title'
+            if number:
+                dict_file_mp3['title'] = delete_duplicate(dict_file_mp3['title'], [number])
         dict_file_mp3['tracknumber'] = number
         # And we format the new title
-        dict_files_mp3['title'] = build_track_name(dict_files_mp3['title'], number)
-    dict_file_mp3['name'] = build_track_name(dict_file['title'], number) + '.mp3'
+        dict_file_mp3['title'] = build_track_name(dict_file_mp3['title'], number)
+    dict_file_mp3['name'] = dict_file_mp3['title'] + '.mp3'
     dict_file_mp3['path'] = build_path([dict_file_mp3['artist'], dict_file_mp3['album']])
     return dict_file_mp3
 
