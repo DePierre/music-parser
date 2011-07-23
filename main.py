@@ -30,10 +30,10 @@ for root_path in list_root_path:
 # Third step : We create a loop which will, for each file:
 #   - Parse it with the Parser (parser.py)
 #   - Take the File_ext given by the parser and execute the execution function
-    for music_files in l_music_files:
+    for music_file in l_music_files:
         # We get a dictionnary of all new value properties of the current file
-        new_prop = file_parser(music_files)
-        # And we use it, but I don't know how right now...
+        dict_new_prop = file_parser(music_file)
+        execution(music_file, dict_new_prop)
 # Fourth step : We delete (if indicated in the settings file) all non musical files,
 # files which in case did not move. Plus, we need to delete every empty folder in the 
 # tree. For that, we use final_cleaning from utils.py
