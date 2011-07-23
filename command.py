@@ -9,6 +9,13 @@ def parse_command(argv):
     list of paths. The function will return this list of paths
     and set the Settings class according to parameters set by user.
     """
+
+    # We delete the first arg, which is the filename
+    # <LOOOOOOOOOOOOOOOOOOL>
+    argv.reverse()
+    argv.pop()
+    argv.revers()
+    # </LOOOOOOOOOOOOOOOOOOL>
     paths = []
     clean_paths = []
     for arg in argv:
