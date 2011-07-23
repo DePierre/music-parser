@@ -95,7 +95,7 @@ def find_tracknumber(title):
     # If we found a digit, it's probably the tracknumber
     j = 0
     # So we save it into tracknumber
-    while title[j].isdigit() and j < len(title)
+    while title[j].isdigit() and j < len(title):
         tracknumber += title[j]
         j += 1
     return tracknumber
@@ -166,7 +166,7 @@ def set_meta_mp3(file):
             list_duplicate = [file.tag['ARTIST']]
             # And we could need 'album' (the less important)
             if file.tag.d.has_key['album']:
-                list_duplicate.append(file.tag['ALBUM']
+                list_duplicate.append(file.tag['ALBUM'])
             # Now we delete the duplicates
             dict_file_mp3['title'] = delete_duplicate(dict_file_mp3, list_duplicate)
         # So we are able to find the tracknumber
@@ -181,6 +181,6 @@ def set_meta_mp3(file):
         # And we format the new title
         dict_files_mp3['title'] = build_track_name(dict_files_mp3['title'], number)
     dict_file_mp3['name'] = build_track_name(dict_file['title'], number) + '.mp3'
-    dict_file_mp3['path'] = build_path([dict_file_mp3['artist'], dict_file_mp3['album']
+    dict_file_mp3['path'] = build_path([dict_file_mp3['artist'], dict_file_mp3['album']])
     return dict_file_mp3
 
