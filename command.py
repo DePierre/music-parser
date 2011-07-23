@@ -14,7 +14,7 @@ def parse_command(argv):
     # <LOOOOOOOOOOOOOOOOOOL>
     argv.reverse()
     argv.pop()
-    argv.revers()
+    argv.reverse()
     # </LOOOOOOOOOOOOOOOOOOL>
     paths = []
     clean_paths = []
