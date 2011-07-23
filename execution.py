@@ -2,16 +2,22 @@ import os, sys
 from file_types import *
 from settings import *
 
-def execution(filebefore, fileafter):
+def execution(filebefore, dict_file_after):
     """
     We give to the execution function:
         - The old File_extension
-        - The new File_extension (after parsing)
+        - The new File_extension's dict (after parsing)
     And he makes magic come true with it
     """
     # 1st of all, we define the same tag for both
-    filebefore.tag = fileafter.tag
+    # We delete properties which aren't in the ID3's tag
+    dict_tag = dict_file_after
+    del dict_tag['name']
+    del dict_tag['path']
+    # We define the new tag
+    for key in dict_file_after:
+        filebefore.tag[key] = dict_file_after[key]
     # 2ndly, we rename the file and move it
     if not Settings.quiet:
-        print filebefore.path + filebefore.name + ' moved to ' + fileafter.path + fileafter.name
-    os.renames(filebefore.path + filebefore.name, fileafter.path + fileafter.name)
+        print filebefore.path + filebefore.name + ' moved to ' + dict_file_after['path'] + dict_file_after['name']
+    os.renames(filebefore.path + filebefore.name, dict_file_after['path'] + dict_file_after['name'])
