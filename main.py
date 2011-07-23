@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 """
 Main function, will use every
 modules and functiosn created
@@ -9,6 +11,8 @@ from command import parse_command
 from settings import Settings
 from parser import *
 from file_types import *
+from utils import *
+from execution import *
 
 # First step : We parse and set the command sent by the user
 # We will store the settings in the Settings class (settings.py)
@@ -32,8 +36,9 @@ for root_path in list_root_path:
 #   - Take the File_ext given by the parser and execute the execution function
     for music_file in l_music_files:
         # We get a dictionnary of all new value properties of the current file
-        dict_new_prop = file_parser(music_file)
-        execution(music_file, dict_new_prop)
+        instant_file = File_mp3(music_file)
+        dict_new_prop = file_parser(instant_file)
+        execution(instant_file, dict_new_prop)
 # Fourth step : We delete (if indicated in the settings file) all non musical files,
 # files which in case did not move. Plus, we need to delete every empty folder in the 
 # tree. For that, we use final_cleaning from utils.py
