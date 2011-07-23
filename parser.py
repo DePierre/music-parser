@@ -43,16 +43,62 @@ def find_meta_function(ext):
     # else: we raise an exception because
     # we don't know the format of the music file
 
-def format_string(str):
+def delete_spe_char_and_format(str):
     """
-    Set special char 'éèêëàâäîï...' as 'eeeeaaaii...'
+    Set special char 'éèêëàâäîï...' as 'eeeeaaaii...',
+    all char "'-_/..." are replaced by ' '
     and use str.title to format the string like a title.
     (i.e 'the wall' => 'The Wall')
     Return an ansi encoded string
     """
 
-    return unicodedata.normalize('NFKD', unicode(str)).encode('ascii', 'ignore').title()
+    new_str = unicodedata.normalize('NFKD', unicode(str)).encode('ascii', 'ignore').title()
+    for i in range(len(new_str)):
+        # If it's not a alphanumeric char
+        # it's probably a char like "'-_/..."
+        if not new_str[i].isalnum():
+            new_str[i] = ' '
+    return new_str
 
+def delete_duplicate(str, list_dup):
+    """
+    Delete duplicate string from str with list_dup.
+    For instance, 'title' could be like :
+    'Deep Purple - Smoke On The Water'
+    So this function will remove 'Deep Purple' from 'title'
+    because list_dup contains 'Deep Purple'.
+    To conlude, this function will delete all
+    not alphanumeric characters from the start of 'title'
+    Return the new 'title'
+    """
+
+    for dup in list_dup:
+        str = str.lstrip(dup)
+    i = 0
+    # While we don't find a character or a digit,
+    # that means it's a special char (logical!)
+    while not str[i].isalnum() and i < len(str):
+        i += 1
+    if i != len(str):
+        str = str[i:]
+    return str
+
+def find_tracknumber(title):
+    """
+    Try to find the track_number of the music file.
+    Even if ID3 didn't find it,
+    maybe this function can.
+    Return the tracknumber as a string
+    """
+
+    tracknumber = ''
+    # If we found a digit, it's probably the tracknumber
+    j = 0
+    # So we save it into tracknumber
+    while title[j].isdigit() and j < len(title)
+        tracknumber += title[j]
+        j += 1
+    return tracknumber
 
 def build_path(elements):
     """
@@ -92,30 +138,49 @@ def set_meta_mp3(file):
     Return a dict with new values
     """
 
-    dict_file = {}
-    if file.tag.d.has_key("TITLE"):
-        dict_file['title'] = format_string(file.tag["TITLE"])
-    else:
-        dict_file['title'] = 'Unknow'
-    if file.tag.d.has_key("ARTIST"):
-        dict_file['artist'] = format_string(file.tag["ARTIST"])
-    else:
-        dict_file['artist'] = 'Unknow'
-    if file.tag.d.has_key("ALBUM"): 
-        dict_file['album'] = format_string(file.tag["ALBUM"])
-    else:
-        dict_file['artist'] = 'Unknow'
-    number = ''
-    if file.tag.has_key("TRACKNUMBER"):
-        number = file.tag["TRACKNUMBER"]
-    dict_file['tracknumber'] = number
-    dict_file['name'] = build_track_name(dict_file['album'], number) + '.mp3'
-    dict_file['path'] = build_path([dict_file['artist'], file.tag["ALBUM"]])
-    if file.tag.d.has_key("YEAR"):
-        dict_file['year'] = file.tag["YEAR"]
-    if file.tag.d.has_key("COMMENT"):
-        dict_file['comment'] = file.tag["COMMENT"]
-    if file.tag.d.has_key("GENRE"):
-        dict_file['genre'] = file.tag["GENRE"]
-    return dict_file
+    list_str_prop_mp3 = ['album', 'artist', 'title']
+    list_other_prop_mp3 = ['comment', 'genre', 'year']
+    dict_file_mp3 = {}
+    # For each string properties into the tag
+    for prop in list_str_prop_mp3:
+        # If the tag exist (i.e it's not empty for the music file)
+        if file.tag.d.has_key[prop.upper()]:
+            # We delete spe char and we format it
+            dict_file_mp3[prop] = delete_spe_char_and_format(file.tag[prop.upper()])
+        else:
+            # Or we define it's value as 'Unknow ' + prop
+            # For instance 'Unknow Artist'
+            dict_file[prop] = 'Unknow ' + prop.capitalize()
+    # For each other properties
+    for prop in list_other_prop_mp3:
+        if file.tag.d.has_key[prop.upper()]:
+            # We just copy them
+            dict_file[prop] = file.tag[prop.upper()]
+        else:
+            dict_file[prop] = ''
+    # To try to find the tracknumber, we need 'title'
+    if dict_file_mp3.has_key['title']: 
+        # But before, we delete the duplicate
+        # and for that we need 'artist' (the most important)
+        if file.tag.d.has_key['artist']:
+            list_duplicate = [file.tag['ARTIST']]
+            # And we could need 'album' (the less important)
+            if file.tag.d.has_key['album']:
+                list_duplicate.append(file.tag['ALBUM']
+            # Now we delete the duplicates
+            dict_file_mp3['title'] = delete_duplicate(dict_file_mp3, list_duplicate)
+        # So we are able to find the tracknumber
+        number = ''
+        # If ID3 already find it
+        if file.tag.d.has_key("TRACKNUMBER"):
+            number = file.tag["TRACKNUMBER"]
+        # Or we try to find by ourself
+        else:
+            number = find_tracknumber(dict_file_mp3['title'])
+        dict_file_mp3['tracknumber'] = number
+        # And we format the new title
+        dict_files_mp3['title'] = build_track_name(dict_files_mp3['title'], number)
+    dict_file_mp3['name'] = build_track_name(dict_file['title'], number) + '.mp3'
+    dict_file_mp3['path'] = build_path([dict_file_mp3['artist'], dict_file_mp3['album']
+    return dict_file_mp3
 
