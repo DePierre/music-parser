@@ -1,4 +1,5 @@
 import os, sys
+import copy
 from file_types import *
 from settings import *
 
@@ -11,7 +12,7 @@ def execution(filebefore, dict_file_after):
     """
     # 1st of all, we define the same tag for both
     # We delete properties which aren't in the ID3's tag
-    dict_tag = dict_file_after
+    dict_tag = dict_file_after.copy()
     del dict_tag['name']
     del dict_tag['path']
     # We define the new tag
