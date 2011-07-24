@@ -16,7 +16,7 @@ def execution(filebefore, dict_file_after):
     del dict_tag['name']
     del dict_tag['path']
     # We define the new tag
-    for key in dict_file_after:
+    for key in dict_tag:
         filebefore.tag[key] = dict_tag[key]
     # 2ndly, we rename the file and move it
     if not Settings.quiet:
