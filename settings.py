@@ -13,7 +13,7 @@ class Settings:
     test = False
 
     # Extensions list
-    exts = ['.mp3', '.wav', '.wma', '.flac']
+    exts = ['.mp3']
 
     # Error messages
     unknown_parameter = 'Unknown parameter! Try --help to get some help'
