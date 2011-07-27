@@ -21,4 +21,5 @@ def execution(filebefore, dict_file_after):
     # 2ndly, we rename the file and move it
     if not Settings.quiet:
         print filebefore.path + '/' + filebefore.name + ' moved to ' + dict_file_after['path'] + '/' + dict_file_after['name']
-    os.renames(filebefore.path + '/' + filebefore.name, dict_file_after['path'] + '/' + dict_file_after['name'])
+    if not Settings.test:
+        os.renames(filebefore.path + '/' + filebefore.name, dict_file_after['path'] + '/' + dict_file_after['name'])

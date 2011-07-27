@@ -16,8 +16,8 @@ class Settings:
     exts = ['.mp3', '.wav', '.wma', '.flac']
 
     # Error messages
-    unknown_parameter = 'Unknown parameter! Try --help to get some help'
-    help_message = 'This is the help message, supposed to help you!'
+    unknown_parameter = 'Unknown parameter! Try --help or -h to get some help'
+    help_message = 'Music-paser, the tool that sort your musical library according to your tracks tags!\n\nusage: music-parser [arguments] [root folder ..]\narguments:\n-t   Print the changes in the console without applying them\n-q   Don\'t print the changes in the console while applying them\n-h   Display this help\n-d   Delete the files that aren\'t of a referenced musical extension'
     syntax_error = 'What did you try to do here?!'
     no_tag_error = 'It seems like your file is not tagged'
 

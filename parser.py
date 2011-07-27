@@ -188,4 +188,3 @@ def set_meta_mp3(file):
     dict_file_mp3['name'] = dict_file_mp3['title'] + '.mp3'
     dict_file_mp3['path'] = build_path([dict_file_mp3['artist'], dict_file_mp3['album']])
     return dict_file_mp3
-
