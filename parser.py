@@ -15,9 +15,11 @@ def file_parser(file):
 
     # Copy of the file instance to save it
     new_file = file
+    dict_file = {}
     # We find the right function depending on the extension of the file
     meta_func = find_meta_function(find_extension(file))
-    dict_file = meta_func(new_file)
+    if callable(meta_func):
+        dict_file = meta_func(new_file)
     return dict_file
     
 def find_extension(file):
@@ -52,7 +54,8 @@ def delete_spe_char_and_format(str):
     Return an ansi encoded string
     """
 
-    new_str = unicodedata.normalize('NFKD', unicode(str)).encode('ascii', 'ignore').title()
+    # new_str = unicodedata.normalize('NFKD', unicode(str)).encode('ascii', 'ignore').title()
+    new_str = str.title()
     for i in range(len(new_str)):
         # If it's not a alphanumeric char
         # it's probably a char like "'-_/..."
@@ -69,10 +72,11 @@ def strip_not_alnum_char(str):
     i = 0
     # While we don't find a character or a digit,
     # that means it's a special char (logical!)
-    while not str[i].isalnum() and i < len(str):
-        i += 1
-    if i != len(str):
-        str = str[i:]
+    if str:
+        while not str[i].isalnum() and i < len(str) - 1:
+            i += 1
+        if i != len(str) - 2:
+            str = str[i:]
     return str
 
 def delete_duplicate(str, list_dup):
@@ -87,6 +91,8 @@ def delete_duplicate(str, list_dup):
 
     for dup in list_dup:
         str = str.lstrip(dup)
+        if not str:
+            str = dup
         str = strip_not_alnum_char(str)
     return str
 
